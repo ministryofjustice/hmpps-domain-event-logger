@@ -2,10 +2,20 @@
 # Per environment values which override defaults in hmpps-domain-event-logger/values.yaml
 
 generic-service:
+  replicaCount: 2
+
   ingress:
     host: hmpps-domain-event-logger.hmpps.service.justice.gov.uk
+
+  env:
+    APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.json
+    API_BASE_URL_OAUTH: https://sign-in.hmpps.service.justice.gov.uk/auth
 
 # CloudPlatform AlertManager receiver to route prometheus alerts to slack
 # See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts
 generic-prometheus-alerts:
-  alertSeverity: digital-prison-service
+  sqsAlertsQueueNames:
+    - "Digital-Prison-Services-prod-hmpps_domain_event_logger_queue"
+    - "Digital-Prison-Services-prod-hmpps_domain_event_logger_dlq"
+  sqsAlertsOldestThreshold: 2
+  sqsAlertsTotalMessagesThreshold: 1

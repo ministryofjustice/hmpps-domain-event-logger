@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.hmppsdomaineventlogger
+package uk.gov.justice.digital.hmpps.domaineventlogger
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
