@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.hmppsdomaineventlogger.config
+package uk.gov.justice.digital.hmpps.domaineventlogger.config
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

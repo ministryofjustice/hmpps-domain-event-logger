@@ -14,10 +14,12 @@ parameters:
 jobs:
   validate:
     executor:
-      name: hmpps/java
-      tag: "19.0"
+      name: hmpps/localstack
+      jdk_tag: "19.0"
+      localstack_tag: "0.14.0"
     steps:
       - checkout
+      - hmpps/wait_till_ready
       - restore_cache:
           keys:
             - gradle-{{ checksum "build.gradle.kts" }}
@@ -63,21 +65,21 @@ workflows:
             - build_docker
             - helm_lint
           helm_timeout: 5m
-#      - request-preprod-approval:
-#          type: approval
-#          requires:
-#            - deploy_dev
-#      - hmpps/deploy_env:
-#          name: deploy_preprod
-#          env: "preprod"
-#          jira_update: true
-#          jira_env_type: staging
-#          context:
-#            - hmpps-common-vars
-#            - hmpps-domain-event-logger-preprod
-#          requires:
-#            - request-preprod-approval
-#          helm_timeout: 5m
+      - request-preprod-approval:
+          type: approval
+          requires:
+            - deploy_dev
+      - hmpps/deploy_env:
+          name: deploy_preprod
+          env: "preprod"
+          jira_update: true
+          jira_env_type: staging
+          context:
+            - hmpps-common-vars
+            - hmpps-domain-event-logger-preprod
+          requires:
+            - request-preprod-approval
+          helm_timeout: 5m
 #      - request-prod-approval:
 #          type: approval
 #          requires:

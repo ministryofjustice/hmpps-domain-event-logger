@@ -1,4 +1,4 @@
-package uk.gov.justice.digital.hmpps.hmppsdomaineventlogger.health
+package uk.gov.justice.digital.hmpps.domaineventlogger.health
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test

@@ -1,0 +1,11 @@
+hmpps.sqs:
+  provider: localstack
+  queues:
+    prisoner:
+      queueName: hmpps_domain_event_logger_queue
+      queueArn: arn:aws:sns:eu-west-2:000000000000:hmpps_domain_event_logger_queue
+      dlqName: hmpps_domain_event_logger_dlq
+      subscribeTopicId: domainevents
+  topics:
+    domainevents:
+      arn: arn:aws:sns:eu-west-2:000000000000:hmpps_domain_events
