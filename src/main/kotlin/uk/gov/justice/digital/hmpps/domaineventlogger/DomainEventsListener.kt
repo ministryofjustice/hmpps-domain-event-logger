@@ -21,16 +21,19 @@ class DomainEventsListener(
   }
 
   @JmsListener(destination = "prisoner", containerFactory = "hmppsQueueContainerFactoryProxy")
-  fun onDomainEventReceived(message: String) {
-    log.info("Received message {}", message)
-    val sqsMessage: SQSMessage = objectMapper.readValue(message)
-
-    val event = translateMap(objectMapper.readValue(sqsMessage.Message))
-    telemetryClient.trackEvent(
-      event.getValue("eventType"),
-      event,
-      null
-    )
+  fun onDomainEventReceived(rawMessage: String) {
+    log.info("Received message {}", rawMessage)
+    try {
+      val sqsMessage: SQSMessage = objectMapper.readValue(rawMessage)
+      val event = translateMap(objectMapper.readValue(sqsMessage.Message))
+      telemetryClient.trackEvent(
+        sqsMessage.MessageAttributes.eventType.Value,
+        event,
+        null
+      )
+    } catch (exception: Exception) {
+      log.error("Received malformed domain event message :$rawMessage", exception)
+    }
   }
 
   /* Domain events have top level attributes and some optional nested objects - eg AdditionalInformation. */
@@ -45,5 +48,8 @@ class DomainEventsListener(
   }
 
   @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
-  data class SQSMessage(val Type: String, val Message: String, val MessageId: String)
+  data class SQSMessage(val Type: String, val Message: String, val MessageId: String, val MessageAttributes: MessageAttributes)
+  @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
+  data class EventType(val Value: String)
+  data class MessageAttributes(val eventType: EventType)
 }

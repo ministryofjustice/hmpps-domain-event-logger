@@ -13,6 +13,7 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.isNull
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 
 internal class PrisonerDomainEventsListenerTest {
   private val objectMapper: ObjectMapper = objectMapper()
@@ -27,13 +28,12 @@ internal class PrisonerDomainEventsListenerTest {
   @Test
   internal fun `will log domain events with name of eventType`() {
     listener.onDomainEventReceived(
-      message = incentiveCreatedMessage()
+      rawMessage = incentiveCreatedMessage()
     )
 
     verify(telemetryClient).trackEvent(
       eq("incentives.iep-review.inserted"),
       check {
-        assertThat(it["eventType"]).isEqualTo("incentives.iep-review.inserted")
         assertThat(it["source"]).isEqualTo("nomis")
         assertThat(it["additionalInformation.id"]).isEqualTo("123")
         assertThat(it["additionalInformation.property2"]).isEqualTo("hello")
@@ -45,19 +45,26 @@ internal class PrisonerDomainEventsListenerTest {
   @Test
   internal fun `can handle unexpected data`() {
     listener.onDomainEventReceived(
-      message = invalidDomainEventMessage()
+      rawMessage = poorQualityMessage()
     )
 
     verify(telemetryClient).trackEvent(
       eq("low-quality-event"),
       check {
-        assertThat(it["eventType"]).isEqualTo("low-quality-event")
         assertThat(it["source"]).isEqualTo("")
         assertThat(it["additionalInformation"]).isNull()
         assertThat(it["nestedMap.emptyProperty"]).isEqualTo("")
       },
       isNull()
     )
+  }
+
+  @Test
+  internal fun `eventType is missing`() {
+    listener.onDomainEventReceived(
+      rawMessage = noEventTypeMessage()
+    )
+    verifyNoInteractions(telemetryClient)
   }
 }
 
@@ -76,6 +83,8 @@ fun incentiveCreatedMessage() = """
         "Token": null, 
         "TopicArn": "arn:aws:sns:eu-west-2:000000000000:hmpps-domain-events", 
         "Message": "{\"eventType\":\"incentives.iep-review.inserted\", \"source\":\"nomis\",\"additionalInformation\": {\"id\":\"123\", \"property2\":\"hello\"}}",
+        "MessageAttributes" : {
+        "eventType" : {"Type":"String","Value":"incentives.iep-review.inserted"}},
         "SubscribeURL": null, 
         "Timestamp": "2021-03-05T11:23:56.031Z", 
         "SignatureVersion": "1", 
@@ -83,13 +92,30 @@ fun incentiveCreatedMessage() = """
         "SigningCertURL": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-0000000000000000000000.pem"}      
 """.trimIndent()
 
-fun invalidDomainEventMessage() = """
+fun poorQualityMessage() = """
       {
         "Type": "Notification", 
         "MessageId": "48e8a79a-0f43-4338-bbd4-b0d745f1f8ec", 
         "Token": null, 
         "TopicArn": "arn:aws:sns:eu-west-2:000000000000:hmpps-domain-events", 
-        "Message": "{\"eventType\":\"low-quality-event\", \"source\":\"\",\"additionalInformation\": {},\"nestedMap\": {\"id\":\"456\", \"emptyProperty\":\"\"},\"multipleNestedMaps\": {\"mapInternal\": {\"anotherNestedMap\":\"\"}}}",
+        "Message": "{\"source\":\"\",\"additionalInformation\": {},\"nestedMap\": {\"id\":\"456\", \"emptyProperty\":\"\"},\"multipleNestedMaps\": {\"mapInternal\": {\"anotherNestedMap\":\"\"}}}",
+        "MessageAttributes" : {
+        "eventType" : {"Type":"String","Value":"low-quality-event"}},
+        "SubscribeURL": null, 
+        "Timestamp": "2021-03-05T11:23:56.031Z", 
+        "SignatureVersion": "1", 
+        "Signature": "EXAMPLEpH+..", 
+        "SigningCertURL": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-0000000000000000000000.pem"}      
+""".trimIndent()
+
+fun noEventTypeMessage() = """
+      {
+        "Type": "Notification", 
+        "MessageId": "48e8a79a-0f43-4338-bbd4-b0d745f1f8ec", 
+        "Token": null, 
+        "TopicArn": "arn:aws:sns:eu-west-2:000000000000:hmpps-domain-events", 
+        "Message": "{\"source\":\"\",\"additionalInformation\": {},\"nestedMap\": {\"id\":\"456\", \"emptyProperty\":\"\"},\"multipleNestedMaps\": {\"mapInternal\": {\"anotherNestedMap\":\"\"}}}",
+        "MessageAttributes" : {},
         "SubscribeURL": null, 
         "Timestamp": "2021-03-05T11:23:56.031Z", 
         "SignatureVersion": "1", 
