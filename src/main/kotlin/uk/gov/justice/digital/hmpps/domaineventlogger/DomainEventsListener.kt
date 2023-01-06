@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.microsoft.applicationinsights.TelemetryClient
+import io.awspring.cloud.sqs.annotation.SqsListener
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.jms.annotation.JmsListener
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,7 +20,7 @@ class DomainEventsListener(
     val log: Logger = LoggerFactory.getLogger(this::class.java)
   }
 
-  @JmsListener(destination = "prisoner", containerFactory = "hmppsQueueContainerFactoryProxy")
+  @SqsListener("prisoner", factory = "hmppsQueueContainerFactoryProxy")
   fun onDomainEventReceived(rawMessage: String) {
     log.info("Received message {}", rawMessage)
     try {
