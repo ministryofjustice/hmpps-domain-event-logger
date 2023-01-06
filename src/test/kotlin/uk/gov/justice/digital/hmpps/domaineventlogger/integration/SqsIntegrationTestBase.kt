@@ -1,6 +1,5 @@
 package uk.gov.justice.digital.hmpps.domaineventlogger.integration
 
-import com.amazonaws.services.sqs.model.PurgeQueueRequest
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -9,6 +8,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.web.reactive.server.WebTestClient
+import software.amazon.awssdk.services.sqs.model.PurgeQueueRequest
 import uk.gov.justice.digital.hmpps.domaineventlogger.integration.LocalStackContainer.setLocalStackProperties
 import uk.gov.justice.hmpps.sqs.HmppsQueue
 import uk.gov.justice.hmpps.sqs.HmppsQueueService
@@ -32,8 +32,8 @@ abstract class SqsIntegrationTestBase {
 
   @BeforeEach
   fun cleanQueue() {
-    awsSqsClient.purgeQueue(PurgeQueueRequest(queueUrl))
-    awsSqsDlqClient?.purgeQueue(PurgeQueueRequest(dlqUrl))
+    awsSqsClient.purgeQueue(PurgeQueueRequest.builder().queueUrl(queueUrl).build()).get()
+    awsSqsDlqClient?.purgeQueue(PurgeQueueRequest.builder().queueUrl(dlqUrl).build())?.get()
   }
 
   companion object {
