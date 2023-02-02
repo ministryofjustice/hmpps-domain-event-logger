@@ -19,6 +19,7 @@ dependencies {
   implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:2.0.0-beta-10")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
   implementation("org.apache.commons:commons-lang3:3.12.0")
+  implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.22.1")
 
   testImplementation("io.swagger.parser.v3:swagger-parser:2.1.11")
   testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
