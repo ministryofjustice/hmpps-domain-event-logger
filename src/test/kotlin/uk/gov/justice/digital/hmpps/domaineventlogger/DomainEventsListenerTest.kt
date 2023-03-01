@@ -22,13 +22,13 @@ internal class PrisonerDomainEventsListenerTest {
   private val listener =
     DomainEventsListener(
       objectMapper,
-      telemetryClient
+      telemetryClient,
     )
 
   @Test
   internal fun `will log domain events with name of eventType`() {
     listener.onDomainEventReceived(
-      rawMessage = incentiveCreatedMessage()
+      rawMessage = incentiveCreatedMessage(),
     )
 
     verify(telemetryClient).trackEvent(
@@ -38,14 +38,14 @@ internal class PrisonerDomainEventsListenerTest {
         assertThat(it["additionalInformation.id"]).isEqualTo("123")
         assertThat(it["additionalInformation.property2"]).isEqualTo("hello")
       },
-      isNull()
+      isNull(),
     )
   }
 
   @Test
   internal fun `can handle unexpected data`() {
     listener.onDomainEventReceived(
-      rawMessage = poorQualityMessage()
+      rawMessage = poorQualityMessage(),
     )
 
     verify(telemetryClient).trackEvent(
@@ -55,14 +55,14 @@ internal class PrisonerDomainEventsListenerTest {
         assertThat(it["additionalInformation"]).isNull()
         assertThat(it["nestedMap.emptyProperty"]).isEqualTo("")
       },
-      isNull()
+      isNull(),
     )
   }
 
   @Test
   internal fun `eventType is missing`() {
     listener.onDomainEventReceived(
-      rawMessage = noEventTypeMessage()
+      rawMessage = noEventTypeMessage(),
     )
     verifyNoInteractions(telemetryClient)
   }

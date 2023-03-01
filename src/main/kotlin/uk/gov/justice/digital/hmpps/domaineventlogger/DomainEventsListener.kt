@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class DomainEventsListener(
   private val objectMapper: ObjectMapper,
-  private val telemetryClient: TelemetryClient
+  private val telemetryClient: TelemetryClient,
 ) {
 
   private companion object {
@@ -32,7 +32,7 @@ class DomainEventsListener(
       telemetryClient.trackEvent(
         sqsMessage.MessageAttributes.eventType.Value,
         event,
-        null
+        null,
       )
     } catch (exception: Exception) {
       log.error("Received malformed domain event message :$rawMessage", exception)
@@ -52,6 +52,7 @@ class DomainEventsListener(
 
   @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
   data class SQSMessage(val Type: String, val Message: String, val MessageId: String, val MessageAttributes: MessageAttributes)
+
   @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
   data class EventType(val Value: String)
   data class MessageAttributes(val eventType: EventType)
