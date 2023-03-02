@@ -16,7 +16,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:2.0.0-beta-12")
+  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:2.0.0-beta-13")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
   implementation("org.apache.commons:commons-lang3:3.12.0")
   implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.23.0")
