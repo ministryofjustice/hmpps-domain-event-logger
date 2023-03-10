@@ -43,6 +43,23 @@ internal class PrisonerDomainEventsListenerTest {
   }
 
   @Test
+  internal fun `will omit attributes with a null value`() {
+    listener.onDomainEventReceived(
+      rawMessage = aMessageWithNullValues(),
+    )
+
+    verify(telemetryClient).trackEvent(
+      eq("message-with-nulls"),
+      check {
+        assertThat(it["description"]).isNull()
+        assertThat(it["additionalInformation.referralId"]).isNull()
+        assertThat(it["additionalInformation.otherId"]).isEqualTo("1234")
+      },
+      isNull(),
+    )
+  }
+
+  @Test
   internal fun `can handle unexpected data`() {
     listener.onDomainEventReceived(
       rawMessage = poorQualityMessage(),
@@ -121,4 +138,18 @@ fun noEventTypeMessage() = """
         "SignatureVersion": "1", 
         "Signature": "EXAMPLEpH+..", 
         "SigningCertURL": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-0000000000000000000000.pem"}      
+""".trimIndent()
+
+fun aMessageWithNullValues() = """
+      {
+        "Type" : "Notification",
+        "MessageId" : "8c3bae1d-b1c6-5dfc-a3b0-f2995b14abe5",
+        "TopicArn" : "arn:aws:sns:eu-west:cloud-platform-Digital-Prison-Services",
+        "Message" : "{\"eventType\":\"message-with-nulls\",\"description\":null,\"occurredAt\":\"2023-03-10T08:21:38.052090485Z\",\"additionalInformation\":{\"referralId\":null, \"otherId\":1234},\"personReference\":null,\"version\":1}",
+        "Timestamp" : "2023-03-10T08:21:38.078Z",
+        "SignatureVersion" : "1",
+        "MessageAttributes" : {
+          "eventType" : {"Type":"String","Value":"message-with-nulls"}
+        }
+      }
 """.trimIndent()
