@@ -44,7 +44,7 @@ class DomainEventsListener(
     val mapNested = rawMap.filter { it.value is Map<*, *> } as Map<String, Map<*, *>>
     // for nested properties use top level key and nested key seperated by a full stop
     val flattenedNestedEntries: List<Map.Entry<String, String>> =
-      mapNested.map { (key, value) -> value.entries.filter { it.value != null}.associate { "$key.${it.key}" to it.value.toString() } }
+      mapNested.map { (key, value) -> value.entries.filter { it.value != null }.associate { "$key.${it.key}" to it.value.toString() } }
         .flatMap { it.entries }
     return rawMap.filter { it.value != null && it.value !is Map<*, *> }.mapValues { it.value.toString() }.toMutableMap()
       .plus(flattenedNestedEntries.associate { it.toPair() })
