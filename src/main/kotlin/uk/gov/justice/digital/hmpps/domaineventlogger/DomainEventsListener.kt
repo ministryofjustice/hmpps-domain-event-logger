@@ -40,18 +40,23 @@ class DomainEventsListener(
   }
 
   /* Domain events have top level attributes and some optional nested objects - eg AdditionalInformation. */
-  fun translateMap(rawMap: Map<String, Any>): Map<String, String> {
+  fun translateMap(rawMap: Map<String, Any?>): Map<String, String> {
     val mapNested = rawMap.filter { it.value is Map<*, *> } as Map<String, Map<*, *>>
     // for nested properties use top level key and nested key seperated by a full stop
     val flattenedNestedEntries: List<Map.Entry<String, String>> =
-      mapNested.map { (key, value) -> value.entries.associate { "$key.${it.key}" to it.value.toString() } }
+      mapNested.map { (key, value) -> value.entries.filter { it.value != null}.associate { "$key.${it.key}" to it.value.toString() } }
         .flatMap { it.entries }
-    return rawMap.filter { it.value !is Map<*, *> }.mapValues { it.value.toString() }.toMutableMap()
-      .plus(flattenedNestedEntries.map { it.toPair() }.toMap())
+    return rawMap.filter { it.value != null && it.value !is Map<*, *> }.mapValues { it.value.toString() }.toMutableMap()
+      .plus(flattenedNestedEntries.associate { it.toPair() })
   }
 
   @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
-  data class SQSMessage(val Type: String, val Message: String, val MessageId: String, val MessageAttributes: MessageAttributes)
+  data class SQSMessage(
+    val Type: String,
+    val Message: String,
+    val MessageId: String,
+    val MessageAttributes: MessageAttributes,
+  )
 
   @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
   data class EventType(val Value: String)
