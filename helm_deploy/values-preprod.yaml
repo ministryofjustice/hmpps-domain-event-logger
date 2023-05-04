@@ -7,6 +7,11 @@ generic-service:
   ingress:
     host: domain-event-logger-preprod.hmpps.service.justice.gov.uk
 
+  scheduledDowntime:
+    enabled: true
+    startup: '21 6 * * 1-5' # Start at 6.21am UTC Monday-Friday
+    shutdown: '53 21 * * 1-5' # Stop at 9.53pm UTC Monday-Friday
+
   env:
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.dev.json
     API_BASE_URL_OAUTH: https://sign-in-preprod.hmpps.service.justice.gov.uk/auth
