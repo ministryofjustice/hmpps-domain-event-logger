@@ -71,3 +71,4 @@ sonar-project.properties
 #Helm
 **/Chart.lock
 volume
+helm_deploy/hmpps-domain-event-logger/charts/
