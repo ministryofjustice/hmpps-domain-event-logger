@@ -24,3 +24,4 @@ generic-prometheus-alerts:
     - "Digital-Prison-Services-dev-hmpps_domain_event_logger_dlq"
   sqsAlertsOldestThreshold: 2
   sqsAlertsTotalMessagesThreshold: 1
+  businessHoursOnly: true
