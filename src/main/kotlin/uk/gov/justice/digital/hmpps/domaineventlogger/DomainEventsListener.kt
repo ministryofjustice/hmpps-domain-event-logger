@@ -28,7 +28,7 @@ class DomainEventsListener(
     log.info("Received message {}", rawMessage)
     try {
       val sqsMessage: SQSMessage = objectMapper.readValue(rawMessage)
-      val event = translateMap(objectMapper.readValue(sqsMessage.Message))
+      val event = translateMap(objectMapper.readValue(sqsMessage.Message)) + ("rawMessage" to rawMessage)
       telemetryClient.trackEvent(
         sqsMessage.MessageAttributes.eventType.Value,
         event,
