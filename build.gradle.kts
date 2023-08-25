@@ -1,6 +1,6 @@
 plugins {
-  id("uk.gov.justice.hmpps.gradle-spring-boot") version "5.3.0-beta"
-  kotlin("plugin.spring") version "1.9.0"
+  id("uk.gov.justice.hmpps.gradle-spring-boot") version "5.4.0"
+  kotlin("plugin.spring") version "1.9.10"
 }
 
 configurations {
@@ -20,13 +20,13 @@ dependencies {
 
   implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:2.0.1")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
-  implementation("org.apache.commons:commons-lang3:3.12.0")
-  implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.28.0")
+  implementation("org.apache.commons:commons-lang3:3.13.0")
+  implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.29.0")
 
   testImplementation("io.swagger.parser.v3:swagger-parser:2.1.16")
   testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
   testImplementation("org.mockito:mockito-inline:5.2.0")
-  testImplementation("org.testcontainers:localstack:1.18.3")
+  testImplementation("org.testcontainers:localstack:1.19.0")
   testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
 }
 
