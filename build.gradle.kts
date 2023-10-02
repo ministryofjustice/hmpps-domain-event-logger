@@ -21,10 +21,10 @@ dependencies {
   implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:2.0.1")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
   implementation("org.apache.commons:commons-lang3:3.13.0")
-  implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.29.0")
+  implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.30.0")
 
   testImplementation("io.swagger.parser.v3:swagger-parser:2.1.16")
-  testImplementation("org.wiremock:wiremock:3.0.3")
+  testImplementation("org.wiremock:wiremock:3.2.0")
   testImplementation("org.mockito:mockito-inline:5.2.0")
   testImplementation("org.testcontainers:localstack:1.19.0")
   testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
