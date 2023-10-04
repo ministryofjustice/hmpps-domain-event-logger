@@ -1,5 +1,5 @@
 plugins {
-  id("uk.gov.justice.hmpps.gradle-spring-boot") version "5.4.1"
+  id("uk.gov.justice.hmpps.gradle-spring-boot") version "5.5.0"
   kotlin("plugin.spring") version "1.9.10"
 }
 
@@ -18,7 +18,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
   implementation("org.springframework.boot:spring-boot-starter-cache")
 
-  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:2.0.1")
+  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:2.1.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
   implementation("org.apache.commons:commons-lang3:3.13.0")
   implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.30.0")
@@ -26,7 +26,7 @@ dependencies {
   testImplementation("io.swagger.parser.v3:swagger-parser:2.1.16")
   testImplementation("org.wiremock:wiremock:3.2.0")
   testImplementation("org.mockito:mockito-inline:5.2.0")
-  testImplementation("org.testcontainers:localstack:1.19.0")
+  testImplementation("org.testcontainers:localstack:1.19.1")
   testImplementation("org.awaitility:awaitility-kotlin:4.2.0")
 }
 
@@ -39,5 +39,10 @@ tasks {
     kotlinOptions {
       jvmTarget = "20"
     }
+  }
+
+  test {
+    // required for jjwt 0.12 - see https://github.com/jwtk/jjwt/issues/849
+    jvmArgs("--add-exports", "java.base/sun.security.util=ALL-UNNAMED")
   }
 }
