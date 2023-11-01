@@ -34,9 +34,9 @@ generic-service:
   namespace_secrets:
     hmpps-domain-event-logger:
       APPINSIGHTS_INSTRUMENTATIONKEY: "APPINSIGHTS_INSTRUMENTATIONKEY"
-    sqs-domain-event-logger-secret:
+    domain-events-sqs-domain-event-logger:
       HMPPS_SQS_QUEUES_PRISONER_QUEUE_NAME: "sqs_queue_name"
-    sqs-domain-event-logger-dlq-secret:
+    domain-events-sqs-domain-event-logger-dlq:
       HMPPS_SQS_QUEUES_PRISONER_DLQ_NAME: "sqs_queue_name"
 
   allowlist:
