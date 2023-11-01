@@ -21,7 +21,7 @@ generic-service:
 generic-prometheus-alerts:
   businessHoursOnly: true
   sqsAlertsQueueNames:
-    - "Digital-Prison-Services-preprod-hmpps_domain_event_logger_queue"
-    - "Digital-Prison-Services-preprod-hmpps_domain_event_logger_dlq"
+    - "syscon-devs-preprod-hmpps_domain_event_logger_queue"
+    - "syscon-devs-preprod-hmpps_domain_event_logger_dlq"
   sqsAlertsOldestThreshold: 2
   sqsAlertsTotalMessagesThreshold: 1
