@@ -15,7 +15,7 @@ generic-service:
 # See https://user-guide.cloud-platform.service.justice.gov.uk/documentation/monitoring-an-app/how-to-create-alarms.html#creating-your-own-custom-alerts
 generic-prometheus-alerts:
   sqsAlertsQueueNames:
-    - "Digital-Prison-Services-prod-hmpps_domain_event_logger_queue"
-    - "Digital-Prison-Services-prod-hmpps_domain_event_logger_dlq"
+    - "syscon-devs-prod-hmpps_domain_event_logger_queue"
+    - "syscon-devs-prod-hmpps_domain_event_logger_dlq"
   sqsAlertsOldestThreshold: 2
   sqsAlertsTotalMessagesThreshold: 1

@@ -23,7 +23,7 @@ class DomainEventsListener(
   }
 
   @SqsListener("prisoner", factory = "hmppsQueueContainerFactoryProxy")
-  @WithSpan(value = "Digital-Prison-Services-hmpps_domain_event_logger_queue", kind = SpanKind.SERVER)
+  @WithSpan(value = "syscon-devs-hmpps_domain_event_logger_queue", kind = SpanKind.SERVER)
   fun onDomainEventReceived(rawMessage: String) {
     log.info("Received message {}", rawMessage)
     try {
