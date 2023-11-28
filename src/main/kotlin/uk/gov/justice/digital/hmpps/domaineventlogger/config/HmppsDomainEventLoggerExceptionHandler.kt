@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @RestControllerAdvice
 class HmppsDomainEventLoggerExceptionHandler {
@@ -25,8 +27,14 @@ class HmppsDomainEventLoggerExceptionHandler {
       )
   }
 
-  @ExceptionHandler(java.lang.Exception::class)
-  fun handleException(e: java.lang.Exception): ResponseEntity<ErrorResponse?>? {
+  @ExceptionHandler(NoResourceFoundException::class)
+  fun handleEntityNotFoundException(e: NoResourceFoundException): ResponseEntity<ErrorResponse> = ResponseEntity
+    .status(HttpStatus.NOT_FOUND)
+    .contentType(MediaType.APPLICATION_JSON)
+    .body(ErrorResponse(status = HttpStatus.NOT_FOUND.value(), developerMessage = e.message))
+
+  @ExceptionHandler(Exception::class)
+  fun handleException(e: Exception): ResponseEntity<ErrorResponse?>? {
     log.error("Unexpected exception", e)
     return ResponseEntity
       .status(INTERNAL_SERVER_ERROR)
