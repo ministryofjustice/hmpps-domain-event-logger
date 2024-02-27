@@ -2,4 +2,4 @@ server:
   shutdown: immediate
 
 api.base.url:
-  oauth: http://localhost:8090/auth
+  hmpps-auth: http://localhost:8090/auth
