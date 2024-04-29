@@ -12,15 +12,15 @@ repositories {
   mavenCentral()
 }
 dependencies {
-  implementation("uk.gov.justice.service.hmpps:hmpps-kotlin-spring-boot-starter:0.2.2")
+  implementation("uk.gov.justice.service.hmpps:hmpps-kotlin-spring-boot-starter:0.2.4")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:3.1.2")
+  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:3.1.3")
   implementation("org.apache.commons:commons-lang3:3.14.0")
   implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:1.33.1")
 
   testImplementation("io.swagger.parser.v3:swagger-parser:2.1.22")
-  testImplementation("org.wiremock:wiremock:3.5.3")
+  testImplementation("org.wiremock:wiremock:3.5.4")
   testImplementation("org.mockito:mockito-inline:5.2.0")
   testImplementation("org.testcontainers:localstack:1.19.7")
   testImplementation("org.awaitility:awaitility-kotlin:4.2.1")
