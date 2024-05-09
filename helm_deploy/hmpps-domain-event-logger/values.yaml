@@ -45,3 +45,4 @@ generic-service:
 generic-prometheus-alerts:
   targetApplication: hmpps-domain-event-logger
   alertSeverity: syscon
+  sqsAlertsTotalMessagesThreshold: 1
