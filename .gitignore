@@ -72,3 +72,4 @@ sonar-project.properties
 **/Chart.lock
 volume
 helm_deploy/hmpps-domain-event-logger/charts/
+.kotlin
