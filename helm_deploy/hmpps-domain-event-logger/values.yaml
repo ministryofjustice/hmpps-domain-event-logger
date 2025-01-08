@@ -1,6 +1,6 @@
 generic-service:
   nameOverride: hmpps-domain-event-logger
-  productId: DPS060
+  productId: DPS091
 
   replicaCount: 4
 
