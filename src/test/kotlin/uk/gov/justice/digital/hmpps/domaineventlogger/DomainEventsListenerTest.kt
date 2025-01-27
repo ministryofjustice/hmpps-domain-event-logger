@@ -85,13 +85,11 @@ internal class PrisonerDomainEventsListenerTest {
   }
 }
 
-private fun objectMapper(): ObjectMapper {
-  return ObjectMapper()
-    .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-    .registerModule(JavaTimeModule())
-    .registerKotlinModule()
-    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-}
+private fun objectMapper(): ObjectMapper = ObjectMapper()
+  .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+  .registerModule(JavaTimeModule())
+  .registerKotlinModule()
+  .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 fun incentiveCreatedMessage() = """
       {
