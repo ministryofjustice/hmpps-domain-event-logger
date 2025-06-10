@@ -35,7 +35,6 @@ jobs:
   kotlin_validate:
     name: Validate the kotlin
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/gradle_localstack_verify.yml@v2 # WORKFLOW_VERSION
-    uses: ./.github/workflows/kotlin_localstack_validate.yml # LOCAL_VERSION
     secrets: inherit
     with:
       localstack_tag: "4"
