@@ -37,7 +37,7 @@ jobs:
     uses: ministryofjustice/hmpps-github-actions/.github/workflows/gradle_localstack_verify.yml@v2 # WORKFLOW_VERSION
     secrets: inherit
     with:
-      localstack_tag: "4"
+      localstack-tag: "4"
   build:
     name: Build docker image from hmpps-github-actions
     if: github.ref == 'refs/heads/main'
