@@ -11,7 +11,7 @@ dependencies {
   implementation("uk.gov.justice.service.hmpps:hmpps-kotlin-spring-boot-starter:1.7.0")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:5.4.11")
+  implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:5.5.0-beta")
   implementation("org.apache.commons:commons-lang3:3.18.0")
   implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:2.18.1")
 
