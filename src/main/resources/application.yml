@@ -58,3 +58,7 @@ management:
     info:
       cache:
         time-to-live: 2000ms
+
+hmpps:
+  sqs:
+    defaultErrorVisibilityTimeout: 1, 10, 60, 600
