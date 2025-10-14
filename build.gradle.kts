@@ -1,5 +1,5 @@
 plugins {
-  id("uk.gov.justice.hmpps.gradle-spring-boot") version "9.1.2"
+  id("uk.gov.justice.hmpps.gradle-spring-boot") version "9.1.3"
   kotlin("plugin.spring") version "2.2.20"
 }
 
@@ -16,7 +16,7 @@ dependencies {
   implementation("org.apache.commons:commons-lang3:3.19.0")
   implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:2.18.1")
 
-  testImplementation("io.swagger.parser.v3:swagger-parser:2.1.34")
+  testImplementation("io.swagger.parser.v3:swagger-parser:2.1.35")
   testImplementation("org.wiremock:wiremock:3.13.1")
   testImplementation("org.mockito:mockito-inline:5.2.0")
   testImplementation("org.testcontainers:localstack:1.21.3")
