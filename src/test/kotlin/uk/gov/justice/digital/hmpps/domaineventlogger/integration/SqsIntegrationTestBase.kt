@@ -3,6 +3,7 @@ package uk.gov.justice.digital.hmpps.domaineventlogger.integration
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.webtestclient.autoconfigure.AutoConfigureWebTestClient
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -16,6 +17,7 @@ import uk.gov.justice.hmpps.sqs.HmppsQueueService
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@AutoConfigureWebTestClient
 abstract class SqsIntegrationTestBase {
   @Autowired
   lateinit var webTestClient: WebTestClient
