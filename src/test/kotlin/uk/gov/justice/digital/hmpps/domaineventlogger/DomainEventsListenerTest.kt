@@ -1,10 +1,5 @@
 package uk.gov.justice.digital.hmpps.domaineventlogger
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.microsoft.applicationinsights.TelemetryClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -14,9 +9,12 @@ import org.mockito.kotlin.isNull
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.json.JsonTest
+import tools.jackson.databind.ObjectMapper
 
-internal class PrisonerDomainEventsListenerTest {
-  private val objectMapper: ObjectMapper = objectMapper()
+@JsonTest
+internal class PrisonerDomainEventsListenerTest(@Autowired objectMapper: ObjectMapper) {
   private val telemetryClient: TelemetryClient = mock()
 
   private val listener =
@@ -84,12 +82,6 @@ internal class PrisonerDomainEventsListenerTest {
     verifyNoInteractions(telemetryClient)
   }
 }
-
-private fun objectMapper(): ObjectMapper = ObjectMapper()
-  .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-  .registerModule(JavaTimeModule())
-  .registerKotlinModule()
-  .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
 fun incentiveCreatedMessage() = """
       {
