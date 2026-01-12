@@ -5,6 +5,7 @@ plugins {
 
 configurations {
   implementation {
+    exclude(group = "org.springdoc", module = "springdoc-openapi-starter-common")
     exclude(group = "com.fasterxml.jackson.module", module = "jackson-module-kotlin")
   }
 }
@@ -21,7 +22,6 @@ dependencies {
   implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:2.19.0")
 
   testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
-  testImplementation("io.swagger.parser.v3:swagger-parser:2.1.37")
   testImplementation("org.wiremock:wiremock:3.13.2")
   testImplementation("org.mockito:mockito-inline:5.2.0")
   testImplementation("org.testcontainers:localstack:1.21.4")
