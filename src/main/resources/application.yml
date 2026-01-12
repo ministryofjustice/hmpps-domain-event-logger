@@ -62,9 +62,3 @@ management:
 hmpps:
   sqs:
     defaultErrorVisibilityTimeout: 1, 10, 60, 600
-
-springdoc:
-  api-docs:
-    enabled: false
-  swagger-ui:
-    enabled: false
