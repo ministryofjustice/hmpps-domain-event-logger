@@ -5,14 +5,13 @@ import io.awspring.cloud.sqs.annotation.SqsListener
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import tools.jackson.databind.ObjectMapper
-import tools.jackson.databind.PropertyNamingStrategies
-import tools.jackson.databind.annotation.JsonNaming
+import tools.jackson.databind.json.JsonMapper
 import tools.jackson.module.kotlin.readValue
+import uk.gov.justice.hmpps.sqs.SnsMessage
 
 @Service
 class DomainEventsListener(
-  private val objectMapper: ObjectMapper,
+  private val jsonMapper: JsonMapper,
   private val telemetryClient: TelemetryClient,
 ) {
 
@@ -24,10 +23,10 @@ class DomainEventsListener(
   fun onDomainEventReceived(rawMessage: String) {
     log.info("Received message {}", rawMessage)
     try {
-      val sqsMessage: SQSMessage = objectMapper.readValue(rawMessage)
-      val event = translateMap(objectMapper.readValue(sqsMessage.Message)) + ("rawMessage" to rawMessage)
+      val sqsMessage: SnsMessage = jsonMapper.readValue(rawMessage)
+      val event = translateMap(jsonMapper.readValue(sqsMessage.message)) + ("rawMessage" to rawMessage)
       telemetryClient.trackEvent(
-        sqsMessage.MessageAttributes.eventType.Value,
+        sqsMessage.messageAttributes.eventType,
         event,
         null,
       )
@@ -46,16 +45,4 @@ class DomainEventsListener(
     return rawMap.filter { it.value != null && it.value !is Map<*, *> }.mapValues { it.value.toString() }.toMutableMap()
       .plus(flattenedNestedEntries.associate { it.toPair() })
   }
-
-  @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
-  data class SQSMessage(
-    val Type: String,
-    val Message: String,
-    val MessageId: String,
-    val MessageAttributes: MessageAttributes,
-  )
-
-  @JsonNaming(value = PropertyNamingStrategies.UpperCamelCaseStrategy::class)
-  data class EventType(val Value: String)
-  data class MessageAttributes(val eventType: EventType)
 }

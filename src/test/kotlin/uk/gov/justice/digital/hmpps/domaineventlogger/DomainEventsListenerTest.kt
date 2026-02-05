@@ -8,18 +8,17 @@ import org.mockito.kotlin.eq
 import org.mockito.kotlin.isNull
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
-import org.mockito.kotlin.verifyNoInteractions
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.json.JsonTest
-import tools.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 
 @JsonTest
-internal class PrisonerDomainEventsListenerTest(@Autowired objectMapper: ObjectMapper) {
+internal class PrisonerDomainEventsListenerTest(@Autowired jsonMapper: JsonMapper) {
   private val telemetryClient: TelemetryClient = mock()
 
   private val listener =
     DomainEventsListener(
-      objectMapper,
+      jsonMapper,
       telemetryClient,
     )
 
@@ -79,7 +78,13 @@ internal class PrisonerDomainEventsListenerTest(@Autowired objectMapper: ObjectM
     listener.onDomainEventReceived(
       rawMessage = noEventTypeMessage(),
     )
-    verifyNoInteractions(telemetryClient)
+    verify(telemetryClient).trackEvent(
+      isNull(),
+      check {
+        assertThat(it["nestedMap.id"]).isEqualTo("456")
+      },
+      isNull(),
+    )
   }
 }
 
