@@ -6,7 +6,7 @@ generic-service:
 
   ingress:
     host: domain-event-logger-dev.hmpps.service.justice.gov.uk
-    className: "default-non-prod"
+    className: modsec-non-prod
 
   scheduledDowntime:
     enabled: true
