@@ -1,6 +1,7 @@
 generic-service:
   nameOverride: hmpps-domain-event-logger
   productId: DPS091
+  cronPrefixName: logger
 
   replicaCount: 4
 
