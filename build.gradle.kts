@@ -1,6 +1,6 @@
 plugins {
-  id("uk.gov.justice.hmpps.gradle-spring-boot") version "10.3.1"
-  kotlin("plugin.spring") version "2.3.21"
+  id("uk.gov.justice.hmpps.gradle-spring-boot") version "10.4.0"
+  kotlin("plugin.spring") version "2.4.0"
 }
 
 configurations {
@@ -15,7 +15,7 @@ dependencyCheck {
 }
 
 dependencies {
-  implementation("uk.gov.justice.service.hmpps:hmpps-kotlin-spring-boot-starter:2.2.0")
+  implementation("uk.gov.justice.service.hmpps:hmpps-kotlin-spring-boot-starter:2.5.0")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
 
   implementation("uk.gov.justice.service.hmpps:hmpps-sqs-spring-boot-starter:7.3.2")
@@ -26,7 +26,7 @@ dependencies {
   implementation("io.opentelemetry.instrumentation:opentelemetry-instrumentation-annotations:2.26.1")
 
   val appinsightsCore = "core:2.6.4"
-  implementation("io.micrometer:micrometer-registry-azure-monitor:1.16.5")
+  implementation("io.micrometer:micrometer-registry-azure-monitor:1.17.0")
   implementation("com.microsoft.azure:applicationinsights-$appinsightsCore")
 
   testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
