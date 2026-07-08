@@ -10,7 +10,7 @@ generic-service:
 
   scheduledDowntime:
     enabled: true
-    startup: '22 6 * * 1-5' # Start at 6.22am UTC Monday-Friday
+    startupOverride: '22 6 * * 1-5' # Start at 6.22am UTC Monday-Friday
     shutdown: '54 21 * * 1-5' # Stop at 9.54pm UTC Monday-Friday
 
   env:
