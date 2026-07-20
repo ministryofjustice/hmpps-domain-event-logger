@@ -16,6 +16,8 @@ generic-service:
   env:
     APPLICATIONINSIGHTS_CONFIGURATION_FILE: applicationinsights.dev.json
     API_BASE_URL_HMPPS_AUTH: https://sign-in-dev.hmpps.service.justice.gov.uk/auth
+    APPLICATIONINSIGHTS_STATSBEAT_DISABLED: "true"
+    JAVA_TOOL_OPTIONS: "$(JAVA_PROXY_TOOL_OPTIONS) -XX:+ExitOnOutOfMemoryError -XX:MaxRAMPercentage=50.0"
 
   namespace_secrets:
     hmpps-envoy-https-proxy-env:
